@@ -7,11 +7,11 @@ import config
 from log import setup_logger
 from utils import join_number, Vector
 
-# from sense_hat import SenseHat
-from random import random
-class SenseHat():
-    def get_accelerometer_raw(self):
-        return {"x": 1, "y": 2, "z": 3}
+from sense_hat import SenseHat
+# from random import random
+# class SenseHat():
+#     def get_accelerometer_raw(self):
+#         return {"x": 1, "y": 2, "z": 3}
 
 logger = setup_logger(
     filename = "log/a2c.csv",
@@ -49,9 +49,9 @@ def main():
         logger.info(join_number([
             a2c.xyz["x"], 
             a2c.xyz["y"], 
-            a2c.xyz["z"]]),
+            a2c.xyz["z"]],
             sep = config.LOGGER_SEPPARATOR
-            )
+            ))
 
 
 if __name__ == "__main__":
