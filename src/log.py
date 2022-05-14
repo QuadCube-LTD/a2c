@@ -1,17 +1,20 @@
 from logging import DEBUG, FileHandler, Formatter, StreamHandler, getLogger
 
 
-def setup_logger(filename="log.log"):
+def setup_logger(
+    filename="log/log",
+    format="%(asctime)s %(levelname)-7s %(funcName)-7s %(message)s"
+    ):
     """
     Example:
         setup_logger(filename="test.log") 
         logger = getLogger(__name__)
     """
     logger = getLogger(__name__)
-    logger.setLevel(DEBUG)
+    logger.setLevel(DEBUG) 
     logger.propagate = False
 
-    formatter = Formatter("%(asctime)s %(levelname)-7s %(funcName)-7s %(message)s")
+    formatter = Formatter(format)
 
     s_handler = StreamHandler()
     s_handler.setFormatter(formatter)

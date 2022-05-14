@@ -21,15 +21,28 @@ class Utilのテスト(unittest.TestCase):
 
 
     def test_転置行列を求める(self):
-        received = utils.T([
+        received1 = utils.T([
             [0,1,2],
             [3,4,5]
             ])
-        expected = [
+        expected1 = [
             [0,3],
             [1,4],
             [2,5]
             ]
+        self.assertEqual(received1, expected1)
+
+        received2 = utils.T([])
+        expected2 = []
+        self.assertEqual(received2, expected2)
+
+    def test_リストを結合して文字列にする(self):
+        received = utils.join_number([1,2,3.4],sep=",")
+        expected = "1,2,3.4"
+        self.assertEqual(received, expected)
+
+        received = utils.join_number([])
+        expected = ""
         self.assertEqual(received, expected)
 
 

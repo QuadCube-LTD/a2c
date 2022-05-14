@@ -1,31 +1,44 @@
 from datetime import datetime
-from logging import getLogger
-from sense_hat import SenseHat
 from time import sleep
-from typing import List, Tuple
+from typing import List
+
 from a2c import A2C
+import config
 from log import setup_logger
+from utils import join_number, Vector
 
-Vector = Tuple[float,float,float]
+# from sense_hat import SenseHat
+from random import random
+class SenseHat():
+    def get_accelerometer_raw(self):
+        return {"x": 1, "y": 2, "z": 3}
 
-SLEEP_TIME = 0.1
-COUNT = 10
+logger = setup_logger(
+    filename = "log/a2c.csv",
+    format = config.LOGGER_SEPPARATOR.join(["%(levelname)s","%(created)s","%(message)s"])
+    )
+    # LEVEL,CREATED,X,Y,Z,Vx,Vy,Vz
 
-logger = setup_logger("log/a2c.log")
 sense = SenseHat()
 
+a2c = A2C()
 
-if __name__ == "__main__":
-    a2c = A2C()
+def sense_accelerations(count: int, sleep_time: float) -> List[Vector]:
+    def sense_acc() -> Vector:
+        sleep(sleep_time)
+        return sense.get_accelerometer_raw()
 
+    return [sense_acc() for _ in range(count)]
+
+
+def main():
     while True:
         old_time = datetime.now().timestamp()
 
-        accelerations: List[Vector] 
-        for _ in range(COUNT):
-            sleep(SLEEP_TIME)
-            acc: Vector = sense.get_accelerometer_raw()
-            accelerations.append(acc) 
+        accelerations: List[Vector] = sense_accelerations(
+            count = config.COUNT,
+            sleep_time = config.SLEEP_TIME
+        )
         
         now_time = datetime.now().timestamp()
 
@@ -33,5 +46,13 @@ if __name__ == "__main__":
         
         a2c.update(accelerations, interval)
 
-        logger.info("xyz:",a2c.xyz)
-        logger.info("velocities:",a2c.velocities)
+        logger.info(join_number([
+            a2c.xyz["x"], 
+            a2c.xyz["y"], 
+            a2c.xyz["z"]]),
+            sep = config.LOGGER_SEPPARATOR
+            )
+
+
+if __name__ == "__main__":
+    main()

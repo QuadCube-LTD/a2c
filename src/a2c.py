@@ -1,37 +1,47 @@
 from time import sleep
-from typing import List, Tuple
-import utils
+from typing import List, Literal
 
-Matrix1d = List[float]
-Vector = Tuple[float,float,float]
+from utils import Vector, average
 
 
 class A2C():
     def __init__(
         self, 
-        initial_velocities: Vector = (0, 0, 0),
-        initial_xyz: Vector = (0, 0, 0)
+        initial_velocities: Vector = {"x": 0, "y": 0, "z": 0},
+        initial_xyz: Vector        = {"x": 0, "y": 0, "z": 0}
         ):
         
         self.velocities = initial_velocities
-        self.xyz = initial_xyz
+        self.xyz        = initial_xyz
 
 
     def update(self, accelerations: List[Vector], delta_t: float):
-        accels: Tuple[Matrix1d,Matrix1d,Matrix1d] = utils.T(accelerations)
+        def new_velocity(key: Literal["x","y","z"]):
+            return self.calc_velocity(
+                acceleration = average([a[key] for a in accelerations]), 
+                delta_t      = delta_t, 
+                v0           = self.velocities[key]
+                )
 
-        new_v=[]
-        new_xyz=[]
+        self.velocities = {
+            "x": new_velocity("x"),
+            "y": new_velocity("y"),
+            "z": new_velocity("z")
+            }
 
-        for v0, x0, a in zip(self.velocities, self.xyz, accels):
-            v = self.calc_velocity(acceleration=a, delta_t=delta_t, v0=v0)
-            new_v.append(v)
+        def new_xyz(key: Literal["x","y","z"]):
+            return self.calc_x(
+                acceleration = average([a[key] for a in accelerations]), 
+                delta_t      = delta_t, 
+                v0           = self.velocities[key], 
+                x0           = self.xyz[key]
+                )  
 
-            x = self.calc_x(acceleration=a, delta_t=delta_t, v0=v0, x0=x0)
-            new_xyz.append(x)
-
-        self.velocities = new_v
-        self.xyz = new_xyz
+        self.xyz = {
+            "x": new_xyz("x"),
+            "y": new_xyz("y"),
+            "z": new_xyz("z")
+            }
 
 
     def calc_velocity(

@@ -13,6 +13,7 @@ class A2Cのテスト(unittest.TestCase):
         
 
     def test_加速度からグローバル直交座標を算出(self):
+        # FIXME: wrong test
         accelerations = [[1,4,7],[2,5,8],[3,6,9]]
         delta_t = 3
         self.a2c.update(accelerations=accelerations, delta_t=delta_t)
