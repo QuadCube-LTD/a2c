@@ -4,6 +4,15 @@ from sense_hat import SenseHat
 from log import setup_logger
 from utils import ceil
 
+# class SenseHat():
+#     def get_orientation_degrees(self):
+#         return {"pitch": 1, "roll": 2, "yaw": 3}
+#     def get_accelerometer_raw(self):
+#         return {"x": 1, "y": 2, "z": 3}
+#     def get_compass_raw(self):
+#         return {"x": 1, "y": 2, "z": 3}
+#     def get_gyroscope(self):
+#         return {"x": 1, "y": 2, "z": 3}
 
 def ceil_dict(dict, digit = 0):
     return {
@@ -23,7 +32,7 @@ if __name__ == '__main__':
         logger.info("accel", ceil_dict(accelerometer, 3))
         
         north = sense.get_compass()
-        logger.info("compass", ceil(north, 2))
+        logger.info("compass", north)
         
         gyro = sense.get_gyroscope()
         logger.info("gyro", ceil_dict(gyro))
