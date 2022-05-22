@@ -1,6 +1,6 @@
 import math
 from numbers import Number
-from typing import List, Sequence, TypedDict
+from typing import Dict, List, Sequence, TypedDict
 
 Matrix2d = Sequence[Sequence[Number]]
 
@@ -17,7 +17,6 @@ def ceil(x: Number, digit: int = 0) -> Number:
 def average(list: Sequence[Number]) -> float:
     return sum(list) / len(list)
 
-
 def T(matrix: Matrix2d) -> Matrix2d:
     """
     転置行列
@@ -28,7 +27,3 @@ def T(matrix: Matrix2d) -> Matrix2d:
     len_colum = len(matrix[0])
     return [[row[i] for row in matrix] 
                     for i in range(len_colum)]
-
-
-def join_number(list: List[Number], sep: str = "") -> str:
-    return sep.join(str(n) for n in list)

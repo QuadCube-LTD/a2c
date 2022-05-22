@@ -13,15 +13,21 @@ class A2Cのテスト(unittest.TestCase):
         
 
     def test_加速度からグローバル直交座標を算出(self):
-        # FIXME: wrong test
-        accelerations = [[1,4,7],[2,5,8],[3,6,9]]
-        delta_t = 3
-        self.a2c.update(accelerations=accelerations, delta_t=delta_t)
+        self.a2c.update(
+            accelerations = [
+                {"x":1, "y":0, "z":0},
+                {"x":2, "y":0, "z":0},
+                {"x":3, "y":0, "z":0}
+                ],
+            delta_t = 3
+            )
         received = self.a2c.xyz
-        expected = [
-            self.a2c.calc_x(1,2,3),
-            self.a2c.calc_x(2,3,4),
-            self.a2c.calc_x(5,6,7)]
+
+        expected = {
+            "x": self.a2c.calc_x(acceleration = 2, delta_t = 3, v0 = 0, x0 = 0),
+            "y": 0,
+            "z": 0,
+            }
         self.assertEqual(received, expected)
 
 
@@ -29,8 +35,7 @@ class A2Cのテスト(unittest.TestCase):
         """
         v = (a * Δt) + v0 
         """
-        self.a2c.calc_velocity(acceleration=1.2,delta_t=1.0, v0=0.2)
-        received = self.a2c.velocities
+        received = self.a2c.calc_velocity(acceleration=1.2,delta_t=1.0, v0=0.2)
         expected = 1.4
         self.assertEqual(received, expected)
 

@@ -16,19 +16,6 @@ class A2C():
 
 
     def update(self, accelerations: List[Vector], delta_t: float):
-        def new_velocity(key: Literal["x","y","z"]):
-            return self.calc_velocity(
-                acceleration = average([a[key] for a in accelerations]), 
-                delta_t      = delta_t, 
-                v0           = self.velocities[key]
-                )
-
-        self.velocities = {
-            "x": new_velocity("x"),
-            "y": new_velocity("y"),
-            "z": new_velocity("z")
-            }
-
         def new_xyz(key: Literal["x","y","z"]):
             return self.calc_x(
                 acceleration = average([a[key] for a in accelerations]), 
@@ -43,9 +30,21 @@ class A2C():
             "z": new_xyz("z")
             }
 
+        def new_velocity(key: Literal["x","y","z"]):
+            return self.calc_velocity(
+                acceleration = average([a[key] for a in accelerations]), 
+                delta_t      = delta_t, 
+                v0           = self.velocities[key]
+                )
 
+        self.velocities = {
+            "x": new_velocity("x"),
+            "y": new_velocity("y"),
+            "z": new_velocity("z")
+            }
+
+    @staticmethod
     def calc_velocity(
-        self, 
         acceleration: float, 
         delta_t: float, 
         v0: float
@@ -55,13 +54,12 @@ class A2C():
         """
         return acceleration * delta_t + v0
 
-
+    @staticmethod
     def calc_x(
-        self, 
         acceleration: float, 
         delta_t: float, 
-        v0: float, 
-        x0: float
+        v0: float = 0,
+        x0: float = 0
         ) -> float:
         """
         x = (1/2 * a * Δt^2) + (v0 * Δt) + x0 = (v * Δt) + v0

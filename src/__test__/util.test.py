@@ -2,7 +2,7 @@ import unittest
 
 import os 
 import sys
-sys.path.append(os.path.abspath(".."))
+sys.path.append(os.path.abspath("../"))
 
 import utils
 
@@ -35,15 +35,6 @@ class Utilのテスト(unittest.TestCase):
         received2 = utils.T([])
         expected2 = []
         self.assertEqual(received2, expected2)
-
-    def test_リストを結合して文字列にする(self):
-        received = utils.join_number([1,2,3.4],sep=",")
-        expected = "1,2,3.4"
-        self.assertEqual(received, expected)
-
-        received = utils.join_number([])
-        expected = ""
-        self.assertEqual(received, expected)
 
 
 if __name__ == '__main__':
