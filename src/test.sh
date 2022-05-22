@@ -1,6 +1,7 @@
 cd __test__/
 
-python a2c.test.py
-python util.test.py
+for file in `\find . -maxdepth 1 -type f -name "*.test.py"`; do
+    python $file
+done
 
 cd ../
